@@ -7,7 +7,8 @@
 
 
 // why this works
-
+let uniqueListID = 0;
+let listIDString = 'listEntry';
 const listButton_1 = document.querySelector('.list-button-1');
 const listButton_2 = document.querySelector('.list-button-2');
 const listItems_1 = document.querySelector('.list-items-1');
@@ -18,6 +19,12 @@ listButton_1.addEventListener("click", addListItem);
 listButton_2.addEventListener("click", addListItem);
 listItems_1.addEventListener("click", doAction);
 listItems_2.addEventListener("click", doAction);
+
+listItems_1.setAttribute('ondrop', "drop(event)");
+listItems_1.setAttribute('ondragover', "allowDrop(event)");
+
+listItems_2.setAttribute('ondrop', "drop(event)");
+listItems_2.setAttribute('ondragover', "allowDrop(event)");
 
 
 function addListItem(event){
@@ -40,6 +47,14 @@ function addListItem(event){
     
     const listDiv = document.createElement("div");
     listDiv.classList.add("list-data");
+    listDiv.setAttribute('draggable',true);
+    listDiv.setAttribute('ondragstart', 'drag(event)');
+    listDiv.id = listIDString.concat(uniqueListID.toString());
+    uniqueListID = uniqueListID + 1;
+    // console.log(uniqueListID);
+    // listDiv.addEventListener('dragstart', handleDragStart, false);
+    // listDiv.addEventListener('dragend', handleDragEnd, false);
+        
     
     const newLi = document.createElement('li');
     newLi.innerText = listInput.value;
@@ -240,6 +255,13 @@ function getListData(){
         
         const listDiv = document.createElement("div");
         listDiv.classList.add("list-data");
+        listDiv.setAttribute('draggable',true);
+        listDiv.setAttribute('ondragstart', 'drag(event)');
+        listDiv.id = listIDString.concat(uniqueListID.toString());
+        uniqueListID = uniqueListID + 1;
+        // listDiv.addEventListener('dragstart', handleDragStart, false);
+        // listDiv.addEventListener('dragend', handleDragEnd, false);
+        // listDiv.addEventListener('drop', handleDrop, false);
         
         const newLi = document.createElement('li');
         newLi.innerText = listData;
@@ -265,6 +287,13 @@ function getListData(){
         
         const listDiv = document.createElement("div");
         listDiv.classList.add("list-data");
+        listDiv.setAttribute('draggable',true);
+        listDiv.setAttribute('ondragstart', 'drag(event)');
+        listDiv.id = listIDString.concat(uniqueListID.toString());
+        uniqueListID = uniqueListID + 1;
+        // listDiv.addEventListener('dragstart', handleDragStart, false);
+        // listDiv.addEventListener('dragend', handleDragEnd, false);
+        // listDiv.addEventListener('drop', handleDrop, false);
         
         const newLi = document.createElement('li');
         newLi.innerText = listData;
@@ -318,3 +347,157 @@ function removeLocalStorageData(listData, listNum){
     }
 
 }
+
+
+function drag(ev) {
+    // console.log(ev.target);
+    ev.dataTransfer.setData("text", ev.target.id);
+  }
+
+function allowDrop(ev) {
+    ev.preventDefault();
+  }
+  
+function drop(ev) {
+    ev.preventDefault();
+    // console.log(ev.target);
+    let dropTarget = ev.target;
+    let dropClass = dropTarget.classList[0];
+    if(dropClass === 'list-text' || dropClass === 'edit-button' || dropClass === 'delete-button'){
+        dropTarget = dropTarget.parentElement;
+        dropTarget = dropTarget.parentElement;
+    }
+
+    var data = ev.dataTransfer.getData("text");
+    // console.log(data);
+    dropTarget.appendChild(document.getElementById(data));
+
+  }
+
+
+
+
+
+// $(function() {
+//     $("#list1, #list2").sortable({
+//       connectWith: "ul",
+//       placeholder: "placeholder",
+//       delay: 150
+//     })
+//     .disableSelection()
+//     .dblclick( function(e){
+//       var item = e.target;
+//       if (e.currentTarget.id === 'list1') {
+//         //move from all to user
+//         $(item).fadeOut('fast', function() {
+//           $(item).appendTo($('#list2')).fadeIn('slow');
+//         });
+//       } else {
+//         //move from user to all
+//         $(item).fadeOut('fast', function() {
+//           $(item).appendTo($('#list1')).fadeIn('slow');
+//         });
+//       }
+//     });
+//   });
+
+
+
+
+
+
+
+// const list_data = document.querySelector('.list-data');
+// list_data.addEventListener('onMouseDown', onmousedown);
+
+// onmousedown = function(event) {
+//     list_data = event.target;
+//     console.log(list_data);
+//     let shiftX = event.clientX - list_data.getBoundingClientRect().left;
+//     let shiftY = event.clientY - list_data.getBoundingClientRect().top;
+//     // console.log(shiftX,shiftY);
+    
+//     list_data.style.position = 'absolute';
+//     list_data.style.zIndex = 1000;
+//     document.body.append(list_data);
+
+//     moveAt(event.pageX, event.pageY);
+
+//     function moveAt(pageX, pageY) {
+//       list_data.style.left = pageX - shiftX + 'px';
+//       list_data.style.top = pageY - shiftY + 'px';
+//     }
+
+//     let currentDroppable = null;
+//     function onMouseMove(event) {
+//       moveAt(event.pageX, event.pageY);
+
+//       list_data.hidden = true;
+//       let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
+//       list_data.hidden = false;
+
+//       if (!elemBelow) return;
+
+//       let droppableBelow = elemBelow.closest('.droppable');
+//       if (currentDroppable != droppableBelow) {
+//         if (currentDroppable) { // null when we were not over a droppable before this event
+//           leaveDroppable(currentDroppable);
+//         }
+//         currentDroppable = droppableBelow;
+//         if (currentDroppable) { // null if we're not coming over a droppable now
+//           // (maybe just left the droppable)
+//           enterDroppable(currentDroppable);
+//         }
+//       }
+//     }
+
+//     document.addEventListener('mousemove', onMouseMove);
+
+//     list_data.onmouseup = function() {
+//       document.removeEventListener('mousemove', onMouseMove);
+//       list_data.onmouseup = null;
+//     };
+
+//   };
+
+//   function enterDroppable(elem) {
+//     elem.style.opacity = 0.7;
+//   }
+
+//   function leaveDroppable(elem) {
+//     elem.style.opacity = 1.0;
+//   }
+
+//   list_data.ondragstart = function() {
+//     return false;
+//   };
+
+
+
+// function handleDragStart(e) {
+//     this.style.opacity = '0.4';
+//     return false;
+    
+//   }
+
+//   function handleDragEnd(e) {
+//     this.style.opacity = '1';
+//   }
+
+//   function handleDrop(e) {
+//     e.stopPropagation();
+  
+//     if (dragSrcEl !== this) {
+//       dragSrcEl.innerHTML = this.innerHTML;
+//       this.innerHTML = e.dataTransfer.getData('text/html');
+//     }
+  
+//     return false;
+//   }
+
+//   let items = document.querySelectorAll('.list-data');
+//     items.forEach(function(item) {
+//     item.addEventListener('dragstart', handleDragStart, false);
+//     item.addEventListener('dragend', handleDragEnd, false);
+//     item.addEventListener('drop', handleDrop, false);
+//   });

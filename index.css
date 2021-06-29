@@ -20,6 +20,9 @@
     justify-content: center;
     align-items: center;
 }
+.list-data{
+    cursor: move;
+}
 
 .list-update-button{
 
