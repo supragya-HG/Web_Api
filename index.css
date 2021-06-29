@@ -1,0 +1,26 @@
+.heading{
+    justify-content: center;
+    align-items: center;
+    color: burlywood;
+    font-size: xx-large;
+    display: flex;
+}
+
+.list-1{
+    color: black;
+}
+
+.list-form{
+    display: flex;
+    justify-content: center;
+}
+
+.list-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.list-update-button{
+
+}
