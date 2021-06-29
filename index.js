@@ -369,8 +369,33 @@ function drop(ev) {
     }
 
     var data = ev.dataTransfer.getData("text");
+    droppingElement = document.getElementById(data);
+    console.log(droppingElement.parentElement.classList);
     // console.log(data);
-    dropTarget.appendChild(document.getElementById(data));
+
+    let listNumDropped, listNumDroppedTo;
+    if(droppingElement.parentElement.classList[0] === 'list-items-1'){
+        listNumDropped = '1';
+    }
+    else if(droppingElement.parentElement.classList[0] === 'list-items-2'){
+        listNumDropped = '2';
+    }
+
+    if(dropTarget.classList[0] === 'list-items-1'){
+        listNumDroppedTo = '1';
+    }
+    else if(dropTarget.classList[0] === 'list-items-2'){
+        listNumDroppedTo = '2';
+    }
+
+    const DropData = droppingElement.childNodes[0].innerText;
+    // console.log(DropData, listNumDropped, listNumDroppedTo);
+
+    saveLocalList(DropData, listNumDroppedTo);
+    removeLocalStorageData(DropData, listNumDropped);
+
+    dropTarget.appendChild(droppingElement);
+
 
   }
 
