@@ -13,6 +13,7 @@ const listButton_2 = document.querySelector('.list-button-2');
 const listItems_1 = document.querySelector('.list-items-1');
 const listItems_2 = document.querySelector('.list-items-2');
 
+document.addEventListener('DOMContentLoaded', getListData);
 listButton_1.addEventListener("click", addListItem);
 listButton_2.addEventListener("click", addListItem);
 listItems_1.addEventListener("click", doAction);
@@ -56,7 +57,7 @@ function addListItem(event){
     listDiv.appendChild(deleteButton);
 
     listItemsCurrent.appendChild(listDiv)
-    // saveLocalList(listInput.value, listNum);
+    saveLocalList(listInput.value, listNum);
     listInput.value = "";
 }
 
@@ -64,13 +65,33 @@ function doAction(e){
     const item = e.target;
     // console.log(item);
     // console.log(item.classList);
+    
+
 
     if(item.classList[0] === 'delete-button'){
         const list = item.parentElement;
+        let listNum;
+        if(list.parentElement.classList[0] === 'list-items-1'){
+            listNum = '1';
+        }
+        else if(list.parentElement.classList[0] === 'list-items-2'){
+            listNum = '2';
+        }
+
+        const listData = list.querySelector('.list-text');
+        removeLocalStorageData(listData.innerText, listNum);
         list.remove();
     }
     else if(item.classList[0] === 'edit-button'){
         const list = item.parentElement;
+        let listNum;
+        if(list.parentElement.classList[0] === 'list-items-1'){
+            listNum = '1';
+        }
+        else if(list.parentElement.classList[0] === 'list-items-2'){
+            listNum = '2';
+        }
+
         const listData = list.querySelector('.list-text');
         // console.log(listData.innerText);
         const oldData = listData.innerText;
@@ -82,7 +103,7 @@ function doAction(e){
         list.replaceChild(updateForm, listData);
         list.querySelector('.edit-button').remove();
 
-
+        removeLocalStorageData(oldData, listNum);
         const updateButton = document.querySelector('.list-update-button');
         updateButton.addEventListener("click", updateData);
     }
@@ -148,32 +169,145 @@ function updateData(e){
     // console.log(updatedList);
     list.insertBefore(newEditButton, list.querySelector('.delete-button'));
     list.insertBefore(updatedList, newEditButton);
+
+    console.log(list);
+    let listNum;
+    if(list.parentElement.classList[0] === 'list-items-1'){
+        listNum = '1';
+    }
+    else if(list.parentElement.classList[0] === 'list-items-2'){
+        listNum = '2';
+    }
+    saveLocalList(newData, listNum);
+
 }
 
 
-// function saveLocalList(listItem, listNum){
-//     let ListItems1, ListItems2;
-//     if(listNum === '1'){
-//         if(localStorage.getItem('ListItems1') === null){
-//             ListItems1 = [];
-//         }
-//         else{
-//             JSON.parse(localStorage.getItem("ListItems1"));
-//         }
+function saveLocalList(listItem, listNum){
+    let listItems1, listItems2;
+    if(listNum === '1'){
+        if(localStorage.getItem('listItems1') === null){
+            listItems1 = [];
+        }
+        else{
+            listItems1 = JSON.parse(localStorage.getItem("listItems1"));
+        }
     
-//         ListItems1.push(listItem);
-//         localStorage.setItem("listItems1", JSON.stringify(ListItems1))    
-//     }
-//     else if(listNum === '2'){
-//         if(localStorage.getItem('ListItems2') === null){
-//             ListItems2 = [];
-//         }
-//         else{
-//             JSON.parse(localStorage.getItem("ListItems2"));
-//         }
+        listItems1.push(listItem);
+        localStorage.setItem("listItems1", JSON.stringify(listItems1))    
+    }
+    else if(listNum === '2'){
+        if(localStorage.getItem('listItems2') === null){
+            listItems2 = [];
+        }
+        else{
+            listItems2 = JSON.parse(localStorage.getItem("listItems2"));
+        }
     
-//         ListItems2.push(listItem);
-//         localStorage.setItem("listItems2", JSON.stringify(ListItems2))    
-//     }
+        listItems2.push(listItem);
+        localStorage.setItem("listItems2", JSON.stringify(listItems2))    
+    }
     
-// }
+}   
+
+
+function getListData(){
+    let listItems1, listItems2;
+    
+    if(localStorage.getItem('listItems1') === null){
+        listItems1 = [];
+    }
+    else{
+        listItems1 = JSON.parse(localStorage.getItem("listItems1"));
+    }
+
+    if(localStorage.getItem('listItems2') === null){
+        listItems2 = [];
+    }
+    else{
+        listItems2 = JSON.parse(localStorage.getItem("listItems2"));
+    }
+
+
+    listItems1.forEach(function(listData){
+        const listItemsCurrent = document.querySelector(".list-items-1");
+        
+        const listDiv = document.createElement("div");
+        listDiv.classList.add("list-data");
+        
+        const newLi = document.createElement('li');
+        newLi.innerText = listData;
+        newLi.classList.add('list-text');
+        listDiv.appendChild(newLi);
+    
+        const editButton = document.createElement('button');
+        editButton.innerHTML = 'Edit';
+        editButton.classList.add('edit-button');
+        listDiv.appendChild(editButton);
+    
+        const deleteButton = document.createElement('button');
+        deleteButton.innerHTML = 'Delete';
+        deleteButton.classList.add('delete-button');
+        listDiv.appendChild(deleteButton);
+    
+        listItemsCurrent.appendChild(listDiv)
+    
+    })
+
+    listItems2.forEach(function(listData){
+        const listItemsCurrent = document.querySelector(".list-items-2");
+        
+        const listDiv = document.createElement("div");
+        listDiv.classList.add("list-data");
+        
+        const newLi = document.createElement('li');
+        newLi.innerText = listData;
+        newLi.classList.add('list-text');
+        listDiv.appendChild(newLi);
+    
+        const editButton = document.createElement('button');
+        editButton.innerHTML = 'Edit';
+        editButton.classList.add('edit-button');
+        listDiv.appendChild(editButton);
+    
+        const deleteButton = document.createElement('button');
+        deleteButton.innerHTML = 'Delete';
+        deleteButton.classList.add('delete-button');
+        listDiv.appendChild(deleteButton);
+    
+        listItemsCurrent.appendChild(listDiv)
+    
+    })
+}
+
+function editLocalStorageData(listData, listNum){
+    // console.log(listData, listNum);
+    let listItems1,listItems2;
+    if(listNum === '1'){
+            listItems1 = JSON.parse(localStorage.getItem("listItems1"));
+            listItems1.splice(listItems1.indexOf(listData),1);
+            localStorage.setItem("listItems1", JSON.stringify(listItems1));
+    }
+    else if(listNum === '2'){
+        listItems2 = JSON.parse(localStorage.getItem("listItems2"));
+        listItems2.splice(listItems2.indexOf(listData),1);
+        localStorage.setItem("listItems2", JSON.stringify(listItems2));
+    }
+
+}
+
+function removeLocalStorageData(listData, listNum){
+    // console.log(listData, listNum);
+    let listItems1,listItems2;
+    if(listNum === '1'){
+            listItems1 = JSON.parse(localStorage.getItem("listItems1"));
+            listItems1.splice(listItems1.indexOf(listData),1);
+            localStorage.setItem("listItems1", JSON.stringify(listItems1));
+    }
+    else if(listNum === '2'){
+        listItems2 = JSON.parse(localStorage.getItem("listItems2"));
+        listItems2.splice(listItems2.indexOf(listData),1);
+        localStorage.setItem("listItems2", JSON.stringify(listItems2));
+    }
+
+}
