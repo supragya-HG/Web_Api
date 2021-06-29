@@ -102,6 +102,7 @@ function doAction(e){
         updateFormInput.value = oldData;
         list.replaceChild(updateForm, listData);
         list.querySelector('.edit-button').remove();
+        list.querySelector('.delete-button').remove();
 
         removeLocalStorageData(oldData, listNum);
         const updateButton = document.querySelector('.list-update-button');
@@ -169,6 +170,11 @@ function updateData(e){
     // console.log(updatedList);
     list.insertBefore(newEditButton, list.querySelector('.delete-button'));
     list.insertBefore(updatedList, newEditButton);
+
+    const deleteButton = document.createElement('button');
+    deleteButton.innerHTML = 'Delete';
+    deleteButton.classList.add('delete-button');
+    list.appendChild(deleteButton);
 
     console.log(list);
     let listNum;
@@ -301,6 +307,7 @@ function removeLocalStorageData(listData, listNum){
     let listItems1,listItems2;
     if(listNum === '1'){
             listItems1 = JSON.parse(localStorage.getItem("listItems1"));
+            // console.log(listItems1.indexOf(listData));
             listItems1.splice(listItems1.indexOf(listData),1);
             localStorage.setItem("listItems1", JSON.stringify(listItems1));
     }
