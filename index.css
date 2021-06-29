@@ -5,25 +5,51 @@
     font-size: xx-large;
     display: flex;
 }
-
+.main{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+ul{
+    list-style-type:none
+}
 .list-1{
+    color: black;
+}
+.list-2{
     color: black;
 }
 
 .list-form{
     display: flex;
     justify-content: center;
+    align-items: center;
+    padding: 0.5em;
 }
 
 .list-container{
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
 }
 .list-data{
     cursor: move;
+    padding: 0.5em;
+    max-width: 50vw;
+}
+.list-text{
+    padding: 0.2em;
+    word-wrap: break-word;
+    margin: 0%;
 }
 
 .list-update-button{
-
+    background-color: rgb(166, 250, 83);
+    margin-right: 0.2em;
+}
+.delete-button{
+    background-color: rgb(243, 102, 89);
+    margin-left: 0.2em;
+}
+.edit-button{
+    background-color: rgb(78, 245, 245);
 }

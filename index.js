@@ -191,7 +191,7 @@ function updateData(e){
     deleteButton.classList.add('delete-button');
     list.appendChild(deleteButton);
 
-    console.log(list);
+    // console.log(list);
     let listNum;
     if(list.parentElement.classList[0] === 'list-items-1'){
         listNum = '1';
