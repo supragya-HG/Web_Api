@@ -57,7 +57,11 @@ function addListItem(event){
         
     
     const newLi = document.createElement('li');
-    newLi.innerText = listInput.value;
+    let newData = listInput.value.trim();
+    if(newData === ''){
+        newData = '< Empty List Item >';
+    }
+    newLi.innerText = newData;
     newLi.classList.add('list-text');
     listDiv.appendChild(newLi);
 
@@ -72,7 +76,7 @@ function addListItem(event){
     listDiv.appendChild(deleteButton);
 
     listItemsCurrent.appendChild(listDiv)
-    saveLocalList(listInput.value, listNum);
+    saveLocalList(newData, listNum);
     listInput.value = "";
 }
 
@@ -171,12 +175,15 @@ function updateData(e){
     // value property of input form
 
 
-    const newData = Form.querySelector('.list-update-input').value;
+    let newData = Form.querySelector('.list-update-input').value;
     // listData.remove();
     const updatedList = document.createElement('li');
     updatedList.classList.add('list-text');
+    newData = newData.trim();
+    if(newData === ''){
+        newData = '< Empty List Item >';
+    }
     updatedList.innerText = newData;
-
     const newEditButton = document.createElement('button');
     newEditButton.classList.add('edit-button');
     newEditButton.innerText = 'Edit';
@@ -370,7 +377,7 @@ function drop(ev) {
 
     var data = ev.dataTransfer.getData("text");
     droppingElement = document.getElementById(data);
-    console.log(droppingElement.parentElement.classList);
+    // console.log(droppingElement.parentElement.classList);
     // console.log(data);
 
     let listNumDropped, listNumDroppedTo;
