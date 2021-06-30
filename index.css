@@ -16,6 +16,9 @@ body{
 ul{
     list-style-type:none
 }
+.list-input{
+    width: 60%;
+}
 .list-1, .list-2{
     color: black;
     padding: 0.5em;
