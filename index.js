@@ -4,7 +4,7 @@
 
 // const listInput = document.querySelector('.list-input');
 
-'use strict';
+// 'use strict';
 
 // why this works
 let uniqueListID = 0;
