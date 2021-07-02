@@ -4,7 +4,7 @@
 
 // const listInput = document.querySelector('.list-input');
 
-
+'use strict';
 
 // why this works
 let uniqueListID = 0;
@@ -376,7 +376,7 @@ function drop(ev) {
     }
 
     var data = ev.dataTransfer.getData("text");
-    droppingElement = document.getElementById(data);
+    var droppingElement = document.getElementById(data);
     // console.log(droppingElement.parentElement.classList);
     // console.log(data);
 
