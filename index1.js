@@ -200,7 +200,11 @@ var listItem = {
             });
         localStorage.setItem("listItems2", JSON.stringify(listItems2));
         }
+
+
+        mapListItems.delete(this.itemID);
     }
+
 
 }
 
