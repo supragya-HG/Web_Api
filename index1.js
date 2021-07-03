@@ -1,5 +1,31 @@
 const mapListItems = new Map();
 
+if(localStorage.getItem('uniqueListID') === null){
+    localStorage.setItem("uniqueListID", 0);
+}
+let uniqueListID = localStorage.getItem('uniqueListID');
+let listIDString = 'listEntry';
+
+const listButton_1 = document.querySelector('.list-button-1');
+const listButton_2 = document.querySelector('.list-button-2');
+const listItems_1 = document.querySelector('.list-items-1');
+const listItems_2 = document.querySelector('.list-items-2');
+
+document.addEventListener('DOMContentLoaded', getListData);
+
+listButton_1.addEventListener("click", addListItem);
+listButton_2.addEventListener("click", addListItem);
+listItems_1.addEventListener("click", doAction);
+listItems_2.addEventListener("click", doAction);
+
+
+listItems_1.setAttribute('ondrop', "drop(event)");
+listItems_1.setAttribute('ondragover', "allowDrop(event)");
+
+listItems_2.setAttribute('ondrop', "drop(event)");
+listItems_2.setAttribute('ondragover', "allowDrop(event)");
+
+
 
 var listItem = {
     listID : 0,
@@ -178,23 +204,7 @@ var listItem = {
 
 }
 
-if(localStorage.getItem('uniqueListID') === null){
-    localStorage.setItem("uniqueListID", 0);
-}
-let uniqueListID = localStorage.getItem('uniqueListID');
-let listIDString = 'listEntry';
 
-const listButton_1 = document.querySelector('.list-button-1');
-const listButton_2 = document.querySelector('.list-button-2');
-const listItems_1 = document.querySelector('.list-items-1');
-const listItems_2 = document.querySelector('.list-items-2');
-
-document.addEventListener('DOMContentLoaded', getListData);
-
-listButton_1.addEventListener("click", addListItem);
-listButton_2.addEventListener("click", addListItem);
-listItems_1.addEventListener("click", doAction);
-listItems_2.addEventListener("click", doAction);
 
 function addListItem(event){
     event.preventDefault();
@@ -305,3 +315,55 @@ function getListData(){
     })
 }
 
+
+
+function drag(ev) {
+    // console.log(ev.target);
+    ev.dataTransfer.setData("text", ev.target.id);
+  }
+
+function allowDrop(ev) {
+    ev.preventDefault();
+  }
+  
+function drop(ev) {
+    ev.preventDefault();
+    // console.log(ev.target);
+    let dropTarget = ev.target;
+    let dropClass = dropTarget.classList[0];
+    if(dropClass === 'list-text' || dropClass === 'edit-button' || dropClass === 'delete-button'){
+        dropTarget = dropTarget.parentElement.parentElement;
+    }
+
+    var data = ev.dataTransfer.getData("text");
+    var droppingElement = document.getElementById(data);
+    // console.log(droppingElement.parentElement.classList);
+    // console.log(data);
+
+    let listNumDropped, listNumDroppedTo;
+    if(droppingElement.parentElement.classList[0] === 'list-items-1'){
+        listNumDropped = 1;
+    }
+    else if(droppingElement.parentElement.classList[0] === 'list-items-2'){
+        listNumDropped = 2;
+    }
+
+    if(dropTarget.classList[0] === 'list-items-1'){
+        listNumDroppedTo = 1;
+    }
+    else if(dropTarget.classList[0] === 'list-items-2'){
+        listNumDroppedTo = 2;
+    }
+
+    // const DropData = droppingElement.childNodes[0].innerText;
+    // console.log(DropData, listNumDropped, listNumDroppedTo);
+    listEntry = mapListItems.get(data);
+    listEntry.deleteLocalStorageData();
+    droppingElement.parentElement.removeChild(droppingElement);
+    listEntry.listID = listNumDroppedTo;
+    listEntry.saveLocalList();
+
+    dropTarget.appendChild(listEntry.renderList());
+
+
+  }
