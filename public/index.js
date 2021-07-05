@@ -1,9 +1,137 @@
 const mapListItems = new Map();
+var uniqueListID;
+fetch('/uniqueListID')
+  .then(response => response.json())
+  .then(data => setUniqueListID(data.uniqueListID));
 
-if(localStorage.getItem('uniqueListID') === null){
-    localStorage.setItem("uniqueListID", 0);
+function setUniqueListID(data){
+    uniqueListID = data;
+    localStorage.setItem("uniqueListID", data);
 }
-let uniqueListID = localStorage.getItem('uniqueListID');
+
+function updateUniqueListID(){
+    let numdata = localStorage.getItem("uniqueListID");
+    numdata++;
+    let data = {"uniqueListID" : numdata};
+    fetch('/handle/uniqueListID', {
+            method: 'POST', // or 'PUT'
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Success:', data);
+          })
+          .catch((error) => {
+            console.log('Error:', error);
+        });
+    localStorage.setItem("uniqueListID", numdata);
+}
+
+function addlist1toServer(listData){
+    fetch('/add/listItems1', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(listData),
+        })
+        .then(response => response.json())
+        .then(data => {
+        console.log('Success:', data);
+        })
+        .catch((error) => {
+        console.log('Error:', error);
+    });
+};
+
+function addlist2toServer(listData){
+    fetch('/add/listItems2', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(listData),
+        })
+        .then(response => response.json())
+        .then(data => {
+        console.log('Success:', data);
+        })
+        .catch((error) => {
+        console.log('Error:', error);
+    });
+};
+
+function editlist1toServer(listData){
+    fetch('/edit/listItems1', {
+        method: 'POST', // or 'PUT'
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(listData),
+        })
+        .then(response => response.json())
+        .then(data => {
+        console.log('Success:', data);
+        })
+        .catch((error) => {
+        console.log('Error:', error);
+    });
+};
+
+function editlist2toServer(listData){
+    fetch('/edit/listItems2', {
+        method: 'POST', // or 'PUT'
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(listData),
+        })
+        .then(response => response.json())
+        .then(data => {
+        console.log('Success:', data);
+        })
+        .catch((error) => {
+        console.log('Error:', error);
+    });
+};
+
+function deletelist1toServer(listData){
+    fetch('/delete/listItems1', {
+            method: 'POST', // or 'PUT'
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(listData),
+          })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Success:', data);
+          })
+          .catch((error) => {
+            console.log('Error:', error);
+        });
+};
+
+function deletelist2toServer(listData){
+    fetch('/delete/listItems2', {
+        method: 'POST', // or 'PUT'
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(listData),
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+      })
+      .catch((error) => {
+        console.log('Error:', error);
+    });
+};
+
 let listIDString = 'listEntry';
 
 
@@ -40,7 +168,7 @@ var funPromise = new Promise(function(resolve, reject) {
     funScript.onload = () => {
         // console.log("Function Script Loaded");
         addEvents();
-        getListData();
+        newGetListData();
     };
     funScript.onerror = () => {
         reject(2);

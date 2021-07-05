@@ -82,13 +82,13 @@ function getListItems2(req, res){
 
 
 app.post('/handle/uniqueListID',(request,response) => {
-    console.log(request.body);
+    // console.log(request.body);
     fs.writeFile('../data/uniqueListID.json', JSON.stringify(request.body, null, 1), err => {
         if(err){
             console.log(err);
         }
         else{
-            console.log("new file created");
+            console.log("uniqueListID updated");
         }
     })
     response.status(200).send(JSON.stringify("Post Request to handle sucess"));
@@ -96,32 +96,219 @@ app.post('/handle/uniqueListID',(request,response) => {
 
 
 app.post('/add/listItems1',(request,response) => {
-    console.log(request.body);
+    // console.log(request.body);
+    let requestData = request.body;
+    fs.readFile('../data/listItems1.json', 'utf-8', (err,JSONfile) => {
+        if(err){
+            console.log(err);
+            res.status(404).send(err);
+        }
+        else {
+            const JSONdata = JSON.parse(JSONfile);
+            // console.log(JSONdata, 107);
+            // console.log(requestData);
+            JSONdata.listItems1.push(requestData);
+            // console.log(JSONdata, 110);
+
+            fs.writeFile('../data/listItems1.json', JSON.stringify(JSONdata, null, 1), err => {
+                if(err){
+                    console.log(err);
+                    res.status(500).send(err);
+                }
+                else{
+                    console.log("listItems1 updated");
+                }
+            })
+        }
+    });
+
+
     response.status(200).send(JSON.stringify("Post Request to handle sucess"));
 });
 
 app.post('/add/listItems2',(request,response) => {
-    console.log(request.body);
+    // console.log(request.body);
+    let requestData = request.body;
+    fs.readFile('../data/listItems2.json', 'utf-8', (err,JSONfile) => {
+        if(err){
+            console.log(err);
+            res.status(404).send(err);
+        }
+        else {
+            const JSONdata = JSON.parse(JSONfile);
+            // console.log(JSONdata, 107);
+            // console.log(requestData);
+            JSONdata.listItems2.push(requestData);
+            // console.log(JSONdata, 110);
+
+            fs.writeFile('../data/listItems2.json', JSON.stringify(JSONdata, null, 1), err => {
+                if(err){
+                    console.log(err);
+                    res.status(500).send(err);
+                }
+                else{
+                    console.log("listItems2 updated");
+                }
+            })
+        }
+    });
+
     response.status(200).send(JSON.stringify("Post Request to handle sucess"));
 });
 
 app.post('/edit/listItems1',(request,response) => {
-    console.log(request.body);
+    // console.log(request.body);
+
+    let requestData = request.body;
+    fs.readFile('../data/listItems1.json', 'utf-8', (err,JSONfile) => {
+        if(err){
+            console.log(err);
+            res.status(404).send(err);
+        }
+        else {
+            const JSONdata = JSON.parse(JSONfile);
+            // console.log(JSONdata, 107);
+            // console.log(requestData);
+            const len = JSONdata.listItems1.length;
+            // console.log(JSONdata.listItems1[len-2], 110);
+            for(let i= 0; i< len; i++){
+                let listentry = JSONdata.listItems1[i];
+                if(listentry.itemID.toString() === requestData.itemID.toString() ){
+                    JSONdata.listItems1[i].listData = requestData.listData.toString();
+                    // console.log(JSONdata, 108);
+                    break;
+                }
+            }
+
+            fs.writeFile('../data/listItems1.json', JSON.stringify(JSONdata, null, 1), err => {
+                if(err){
+                    console.log(err);
+                    res.status(500).send(err);
+                }
+                else{
+                    console.log("listItems1 edited");
+                }
+            })
+        }
+    });
+
     response.status(200).send(JSON.stringify("Post Request to handle sucess"));
 });
 
 app.post('/edit/listItems2',(request,response) => {
-    console.log(request.body);
+    // console.log(request.body);
+
+    let requestData = request.body;
+    fs.readFile('../data/listItems2.json', 'utf-8', (err,JSONfile) => {
+        if(err){
+            console.log(err);
+            res.status(404).send(err);
+        }
+        else {
+            const JSONdata = JSON.parse(JSONfile);
+            // console.log(JSONdata, 107);
+            // console.log(requestData);
+            const len = JSONdata.listItems2.length;
+            // console.log(JSONdata.listItems1[len-2], 110);
+            for(let i= 0; i< len; i++){
+                let listentry = JSONdata.listItems2[i];
+                if(listentry.itemID.toString() === requestData.itemID.toString() ){
+                    JSONdata.listItems2[i].listData = requestData.listData.toString();
+                    // console.log(JSONdata, 108);
+                    break;
+                }
+            }
+
+            fs.writeFile('../data/listItems2.json', JSON.stringify(JSONdata, null, 1), err => {
+                if(err){
+                    console.log(err);
+                    res.status(500).send(err);
+                }
+                else{
+                    console.log("listItems2 edited");
+                }
+            })
+        }
+    });
+
     response.status(200).send(JSON.stringify("Post Request to handle sucess"));
 });
 
 app.post('/delete/listItems1',(request,response) => {
-    console.log(request.body);
+    // console.log(request.body);
+
+    let requestData = request.body;
+    fs.readFile('../data/listItems1.json', 'utf-8', (err,JSONfile) => {
+        if(err){
+            console.log(err);
+            res.status(404).send(err);
+        }
+        else {
+            const JSONdata = JSON.parse(JSONfile);
+            // console.log(JSONdata, 107);
+            // console.log(requestData);
+            const len = JSONdata.listItems1.length;
+            // console.log(JSONdata.listItems1[len-2], 110);
+            for(let i= 0; i< len; i++){
+                let listentry = JSONdata.listItems1[i];
+                if(listentry.itemID.toString() === requestData.itemID.toString() ){
+                    JSONdata.listItems1.splice(i,1);
+                    // console.log(JSONdata, 108);
+                    break;
+                }
+            }
+
+            fs.writeFile('../data/listItems1.json', JSON.stringify(JSONdata, null, 1), err => {
+                if(err){
+                    console.log(err);
+                    res.status(500).send(err);
+                }
+                else{
+                    console.log("listItems1 item deleted");
+                }
+            })
+        }
+    });
+
     response.status(200).send(JSON.stringify("Post Request to handle sucess"));
 });
 
 app.post('/delete/listItems2',(request,response) => {
-    console.log(request.body);
+    // console.log(request.body);
+
+    let requestData = request.body;
+    fs.readFile('../data/listItems2.json', 'utf-8', (err,JSONfile) => {
+        if(err){
+            console.log(err);
+            res.status(404).send(err);
+        }
+        else {
+            const JSONdata = JSON.parse(JSONfile);
+            // console.log(JSONdata, 107);
+            // console.log(requestData);
+            const len = JSONdata.listItems2.length;
+            // console.log(JSONdata.listItems1[len-2], 110);
+            for(let i= 0; i< len; i++){
+                let listentry = JSONdata.listItems2[i];
+                if(listentry.itemID.toString() === requestData.itemID.toString() ){
+                    JSONdata.listItems2.splice(i,1);
+                    // console.log(JSONdata, 108);
+                    break;
+                }
+            }
+
+            fs.writeFile('../data/listItems2.json', JSON.stringify(JSONdata, null, 1), err => {
+                if(err){
+                    console.log(err);
+                    res.status(500).send(err);
+                }
+                else{
+                    console.log("listItems2 item deleted");
+                }
+            })
+        }
+    });
+    
     response.status(200).send(JSON.stringify("Post Request to handle sucess"));
 });
 
