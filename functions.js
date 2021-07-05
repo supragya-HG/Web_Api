@@ -1,3 +1,4 @@
+var listItem;
 
 function addEvents(){
     listButton_1.addEventListener("click", addListItem);
