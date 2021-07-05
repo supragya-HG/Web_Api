@@ -97,6 +97,14 @@ function getListData(){
     }
     else{
         listItems1 = JSON.parse(localStorage.getItem("listItems1"));
+        listItems1.forEach(function(listEntry){
+            const listItemsCurrent = document.querySelector(".list-items-1");
+            let listObject = Object.create(listItem);
+            listObject.fillData(listEntry.listID, listEntry.itemID, listEntry.listData);
+            const listDiv =  listObject.renderList();
+           
+            listItemsCurrent.appendChild(listDiv);
+        })
     }
 
     if(localStorage.getItem('listItems2') === null){
@@ -104,28 +112,16 @@ function getListData(){
     }
     else{
         listItems2 = JSON.parse(localStorage.getItem("listItems2"));
+        listItems2.forEach(function(listEntry){
+            const listItemsCurrent = document.querySelector(".list-items-2");
+            let listObject = Object.create(listItem);
+            listObject.fillData(listEntry.listID, listEntry.itemID, listEntry.listData);
+            const listDiv =  listObject.renderList();
+           
+            listItemsCurrent.appendChild(listDiv);
+        })
     }
-
-
-    listItems1.forEach(function(listEntry){
-        const listItemsCurrent = document.querySelector(".list-items-1");
-        let listObject = Object.create(listItem);
-        listObject.fillData(listEntry.listID, listEntry.itemID, listEntry.listData);
-        const listDiv =  listObject.renderList();
-       
-        listItemsCurrent.appendChild(listDiv);
     
-    })
-
-    listItems2.forEach(function(listEntry){
-        const listItemsCurrent = document.querySelector(".list-items-2");
-        let listObject = Object.create(listItem);
-        listObject.fillData(listEntry.listID, listEntry.itemID, listEntry.listData);
-        const listDiv =  listObject.renderList();
-       
-        listItemsCurrent.appendChild(listDiv);
-    
-    })
 };
 
 
@@ -139,26 +135,6 @@ function newGetListData(){
       .then(response => response.json())
       .then(data => renderRequestList2(data));
 
-
-    // listItems1.forEach(function(listEntry){
-    //     const listItemsCurrent = document.querySelector(".list-items-1");
-    //     let listObject = Object.create(listItem);
-    //     listObject.fillData(listEntry.listID, listEntry.itemID, listEntry.listData);
-    //     const listDiv =  listObject.renderList();
-       
-    //     listItemsCurrent.appendChild(listDiv);
-    
-    // })
-
-    // listItems2.forEach(function(listEntry){
-    //     const listItemsCurrent = document.querySelector(".list-items-2");
-    //     let listObject = Object.create(listItem);
-    //     listObject.fillData(listEntry.listID, listEntry.itemID, listEntry.listData);
-    //     const listDiv =  listObject.renderList();
-       
-    //     listItemsCurrent.appendChild(listDiv);
-    
-    // })
 };
 
 function renderRequestList1(data){
