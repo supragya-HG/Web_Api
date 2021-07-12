@@ -1,10 +1,15 @@
-import logo from './logo.svg';
 import './App.css';
+import InputBox from './components/InputBox.js'
+import ListGrid from './components/ListGrid.js'
+
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
+      <div className="Header"><h1>List App</h1></div>
+      <InputBox></InputBox>
+      <ListGrid></ListGrid>
+      {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
@@ -17,7 +22,7 @@ function App() {
         >
           Learn React
         </a>
-      </header>
+      </header> */}
     </div>
   );
 }
